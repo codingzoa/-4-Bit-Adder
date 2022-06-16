@@ -1,47 +1,32 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
+-- Engineer: Hyeonsu Lee
 -- Create Date: 2022/03/19 17:08:37
--- Design Name: 
--- Module Name: Adder_4bit - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
--- 
+-- Project Name: 4 bit adder with full adder
 ----------------------------------------------------------------------------------
 
-
 library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;    -- bit type ¿Ü¿¡ std_logic type »ç¿ëÇÏ±â À§ÇÔ
+use IEEE.STD_LOGIC_1164.ALL;    -- bit type ì™¸ì— std_logic type ì‚¬ìš©í•˜ê¸° ìœ„í•¨
 
-entity Adder_4bit is            --std_logic typeÀ¸·Î 4bit adder ÀÔÃâ·Â ¼±¾ğ, x,y,cinÀ» ÀÔ·ÂÀ¸·Î sum,coutÀ» Ãâ·ÂÀ¸·Î ¼±¾ğ
-port (x, y : in std_logic_vector(3 downto 0); --4 bitÀÌ±â ¶§¹®¿¡ vector
+entity Adder_4bit is            --std_logic typeìœ¼ë¡œ 4bit adder ì…ì¶œë ¥ ì„ ì–¸, x,y,cinì„ ì…ë ¥ìœ¼ë¡œ sum,coutì„ ì¶œë ¥ìœ¼ë¡œ ì„ ì–¸
+port (x, y : in std_logic_vector(3 downto 0); --4 bitì´ê¸° ë•Œë¬¸ì— vector
       cin: in std_logic; 
-      sum : out std_logic_vector(3 downto 0); --4 bitÀÌ±â ¶§¹®¿¡ vector
+      sum : out std_logic_vector(3 downto 0); --4 bitì´ê¸° ë•Œë¬¸ì— vector
       cout: out std_logic);
 end Adder_4bit;
 
 architecture Behavioral of Adder_4bit is
-component Full_Adder             --¾Õ¼­ ¼³°èÇÑ full adder¸¦ component·Î ºÒ·¯¿Í¼­ »ç¿ë, ¸ğµÎ 1bitÀÌ±â ¶§¹®¿¡ std_logic »ç¿ë
+component Full_Adder             --ì•ì„œ ì„¤ê³„í•œ full adderë¥¼ componentë¡œ ë¶ˆëŸ¬ì™€ì„œ ì‚¬ìš©, ëª¨ë‘ 1bitì´ê¸° ë•Œë¬¸ì— std_logic ì‚¬ìš©
 port(x, y, cin: in std_logic;
       sum : out std_logic;
       cout: out std_logic);
-      end component;             --full adderÀÇ ÀÔÃâ·ÂÀ» °¡Á®¿Ô´Ù°í ÇÒ ¼ö ÀÖÀ½
+      end component;             --full adderì˜ ì…ì¶œë ¥ì„ ê°€ì ¸ì™”ë‹¤ê³  í•  ìˆ˜ ìˆìŒ
      
-signal C_internal : std_logic_vector(3 downto 1); --°¢ full adder¿¡¼­ ´ÙÀ½ full adder·Î ÀÌµ¿ÇÏ´Â carry ÀÇ¹Ì 
-begin  --port mapÀ¸·Î component, signalÀ» ÀÌ¿ëÇÏ¿© full adderÀÇ block °£ ¿¬°á
-    FA0 : Full_Adder port map (x(0),y(0),cin,sum(0),C_internal(1)); --x(0), y(0), cinÀ» ´õÇßÀ» ¶§ carry´Â C_interal(1), carry Á¦¿ÜÇÑ ÇÕÀº sum(0)
-    FA1 : Full_Adder port map (x(1),y(1),C_internal(1),sum(1),C_internal(2)); --x(1), y(1), C_internal(1)À» ´õÇßÀ» ¶§ carry´Â C_interal(2), carry Á¦¿ÜÇÑ ÇÕÀº sum(1)
-    FA2 : Full_Adder port map (x(2),y(2),C_internal(2),sum(2),C_internal(3)); --x(2), y(2), C_internal(2)À» ´õÇßÀ» ¶§ carry´Â C_interal(3), carry Á¦¿ÜÇÑ ÇÕÀº sum(2)
-    FA3 : Full_Adder port map (x(3),y(3),C_internal(3),sum(3),cout); --x(3), y(3), C_internal(3)À» ´õÇßÀ» ¶§ carry´Â ÃÖÁ¾ÀûÀ¸·Î coutÀÌ°í, carry Á¦¿ÜÇÑ ÇÕÀº sum(3)
+signal C_internal : std_logic_vector(3 downto 1); --ê° full adderì—ì„œ ë‹¤ìŒ full adderë¡œ ì´ë™í•˜ëŠ” carry ì˜ë¯¸ 
+begin  --port mapìœ¼ë¡œ component, signalì„ ì´ìš©í•˜ì—¬ full adderì˜ block ê°„ ì—°ê²°
+    FA0 : Full_Adder port map (x(0),y(0),cin,sum(0),C_internal(1)); --x(0), y(0), cinì„ ë”í–ˆì„ ë•Œ carryëŠ” C_interal(1), carry ì œì™¸í•œ í•©ì€ sum(0)
+    FA1 : Full_Adder port map (x(1),y(1),C_internal(1),sum(1),C_internal(2)); --x(1), y(1), C_internal(1)ì„ ë”í–ˆì„ ë•Œ carryëŠ” C_interal(2), carry ì œì™¸í•œ í•©ì€ sum(1)
+    FA2 : Full_Adder port map (x(2),y(2),C_internal(2),sum(2),C_internal(3)); --x(2), y(2), C_internal(2)ì„ ë”í–ˆì„ ë•Œ carryëŠ” C_interal(3), carry ì œì™¸í•œ í•©ì€ sum(2)
+    FA3 : Full_Adder port map (x(3),y(3),C_internal(3),sum(3),cout); --x(3), y(3), C_internal(3)ì„ ë”í–ˆì„ ë•Œ carryëŠ” ìµœì¢…ì ìœ¼ë¡œ coutì´ê³ , carry ì œì™¸í•œ í•©ì€ sum(3)
 
-end Behavioral;        --full adder 4°³¸¦ ¿¬°áÇÑ 4bit adder¸¦ ¼³°èÇØ¾ß ÇÏ¹Ç·Î structural modelingÀ» ÀÌ¿ëÇÏ¿© block°ú blockÀ» ¿¬°á
+end Behavioral;        --full adder 4ê°œë¥¼ ì—°ê²°í•œ 4bit adderë¥¼ ì„¤ê³„í•´ì•¼ í•˜ë¯€ë¡œ structural modelingì„ ì´ìš©í•˜ì—¬ blockê³¼ blockì„ ì—°ê²°
  
